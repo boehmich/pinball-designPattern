@@ -8,6 +8,7 @@ import Pattern.Composite.ElementComposite;
 import Pattern.StateGame.*;
 import Pattern.VisitorGame.ElementVisitor;
 
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Pinball {
@@ -63,35 +64,15 @@ public class Pinball {
                     }
                     break;
                 case 'a':
-                    // If in playing mode and ball in board
-                    if (stateContextGame.getGameState().equals("StatePlaying")
-                            || stateContextGame.getGameState().equals("StateEnd")
-                            && isBallInBoard){
-                        // StateEnd: win method is active, game over will be called automatic on ball loss
-                        userBallInteraction("a");
-                     }
-                    break;
                 case 'd':
                     // If in playing mode and ball in board
                     if (stateContextGame.getGameState().equals("StatePlaying")
                             || stateContextGame.getGameState().equals("StateEnd")
                             && isBallInBoard){
-                        // win method is active, game over will be called automatically on ball loss
-                        userBallInteraction("d");
+                        // StateEnd: win method is active, game over will be called automatic on ball loss
+                        userBallInteraction(Character.toString(input));
                     }
-
                     break;
-                /* This would be a better solution, but it is not working! :(
-                    case 'a':
-                    case 'd':
-                        if (stateContextGame.getGameState().equals("StatePlaying")
-                                || stateContextGame.getGameState().equals("StateEnd")
-                                && isBallInBoard){
-                            // StateEnd: win method is active, game over will be called automatic on ball loss
-                            userBallInteraction(Character.toString(input));
-                        }
-                    break;
-                */
                 case 's':
                     // if in playing mode and ball not yet initalized then initalize ball
                     if (stateContextGame.getGameState().equals("StatePlaying")){
@@ -172,7 +153,7 @@ public class Pinball {
     // process interaction of ball movement and user input
     private void userBallInteraction(String userInput){
         // check if user action equals expected landing location of ball
-        if (expectedLandingLocation == userInput){
+        if (Objects.equals(expectedLandingLocation, userInput)){
             ballRoll(mainBoard, false);
         } else {
             ballIsLost();
